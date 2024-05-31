@@ -59,6 +59,10 @@ fun LocationDisplay(
 
     val location = viewModel.location.value
 
+    val address = location?.let{
+        locationUtils.reverseGeocodeLocation(location)
+    }
+
     // 결과를 위해 액티비티를 시작하라는 요청을 등록하는 것
     val requestPermissonLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions(), // 여러 권한을 요청할 수 있도록 함
@@ -100,7 +104,7 @@ fun LocationDisplay(
     ) {
         if (location != null) {
             Text(text = "위도: ${location.latitude}")
-            Text(text = "경도: ${location.longitude}")
+            Text(text = "경도: ${location.longitude} \n $address")
         } else{
             Text(text = "위치를 확인할 수 없습니다.")
         }
